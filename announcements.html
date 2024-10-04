@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KVHS Announcements - Announcements Only</title>
+    <title>KVHS Announcements</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -28,20 +28,10 @@
             margin-top: 15px;
             margin-bottom: 10px;
         }
-        p, ul {
+        p {
             font-size: 18px;
             max-width: 90%;
             margin: 5px auto;
-        }
-        ul {
-            padding: 0;
-            list-style: none;
-        }
-        li {
-            margin: 5px 0;
-        }
-        section {
-            margin-top: 20px;
         }
     </style>
 </head>
@@ -49,50 +39,57 @@
     <div>
         <h1>KVHS Announcements</h1>
 
+        <!-- Section 1 -->
         <section>
-            <h2>Bronc Store:</h2>
-            <p id="broncStore"></p>
+            <h2 id="section1Label">Loading...</h2>
+            <p id="section1Content">Loading content...</p>
         </section>
 
+        <!-- Section 2 -->
         <section>
-            <h2>Powderpuff Pre-sales:</h2>
-            <p id="powderpuff"></p>
+            <h2 id="section2Label">Loading...</h2>
+            <p id="section2Content">Loading content...</p>
         </section>
 
+        <!-- Section 3 -->
         <section>
-            <h2>Juniors’ Homecoming Prep:</h2>
-            <p id="homecoming"></p>
+            <h2 id="section3Label">Loading...</h2>
+            <p id="section3Content">Loading content...</p>
         </section>
 
+        <!-- Section 4 -->
         <section>
-            <h2>KV Pride Club Meeting:</h2>
-            <p id="prideClub"></p>
+            <h2 id="section4Label">Loading...</h2>
+            <p id="section4Content">Loading content...</p>
         </section>
     </div>
 
     <script>
         function loadGoogleSheetData() {
-            // Use the Google Sheets CSV link provided earlier
             const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2UdAAWIYJE-S6Hg_01uwpuk3gsxRIxq5xJw2nLdEk6Ydc2Mw9WKpJLHUSpOcrLgvHpts8Mf1UUFCu/pub?output=csv';
 
             fetch(sheetUrl)
                 .then(response => response.text())
                 .then(data => {
-                    console.log("Raw CSV Data:", data); // Log the raw CSV data
-
-                    // Split the data by newlines to get rows
+                    // Split the data by lines to get rows
                     const rows = data.split('\n');
-                    console.log("Split Rows:", rows); // Log the split rows
+                    
+                    // Split each row by commas to get columns (cells)
+                    const labels = rows[0].split(',');  // Row 1 for the labels (A1, B1, etc.)
+                    const announcements = rows[1].split(',');  // Row 2 for the corresponding text (A2, B2, etc.)
 
-                    // Split the second row for announcements
-                    const announcements = rows[1].split(',');
-                    console.log("Announcements:", announcements); // Log the announcements
+                    // Dynamically populate the HTML with labels and content from the sheet
+                    document.getElementById('section1Label').innerHTML = labels[0].trim() || 'Label 1';
+                    document.getElementById('section1Content').innerHTML = announcements[0].trim() || 'No content available';
 
-                    // Populate the HTML with Google Sheets data
-                    document.getElementById('broncStore').innerHTML = announcements[0] || 'No data';
-                    document.getElementById('powderpuff').innerHTML = announcements[1] || 'No data';
-                    document.getElementById('homecoming').innerHTML = announcements[2] || 'No data';
-                    document.getElementById('prideClub').innerHTML = announcements[3] || 'No data';
+                    document.getElementById('section2Label').innerHTML = labels[1].trim() || 'Label 2';
+                    document.getElementById('section2Content').innerHTML = announcements[1].trim() || 'No content available';
+
+                    document.getElementById('section3Label').innerHTML = labels[2].trim() || 'Label 3';
+                    document.getElementById('section3Content').innerHTML = announcements[2].trim() || 'No content available';
+
+                    document.getElementById('section4Label').innerHTML = labels[3].trim() || 'Label 4';
+                    document.getElementById('section4Content').innerHTML = announcements[3].trim() || 'No content available';
                 })
                 .catch(error => {
                     console.error('Error loading Google Sheet:', error);
