@@ -78,7 +78,7 @@
                     const labels = rows[0].split(',');  // Row 1 for the labels (A1, B1, etc.)
                     const announcements = rows[1].split(',');  // Row 2 for the corresponding text (A2, B2, etc.)
 
-                    // Dynamically populate the HTML with labels and content from the sheet
+                    // Populate the HTML with labels and content from the sheet
                     document.getElementById('section1Label').innerHTML = labels[0].trim() || 'Label 1';
                     document.getElementById('section1Content').innerHTML = announcements[0].trim() || 'No content available';
 
