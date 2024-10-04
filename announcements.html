@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KVHS Announcements - Announcements Only</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            font-size: 20px;
+            line-height: 1.4;
+            text-align: center;
+        }
+        h1 {
+            color: #1d1d1f;
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        h2 {
+            color: #1d1d1f;
+            font-size: 24px;
+            font-weight: 600;
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+        p, ul {
+            font-size: 18px;
+            max-width: 90%;
+            margin: 5px auto;
+        }
+        ul {
+            padding: 0;
+            list-style: none;
+        }
+        li {
+            margin: 5px 0;
+        }
+        section {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>KVHS Announcements</h1>
+
+        <section>
+            <h2>Bronc Store:</h2>
+            <p id="broncStore"></p>
+        </section>
+
+        <section>
+            <h2>Powderpuff Pre-sales:</h2>
+            <p id="powderpuff"></p>
+        </section>
+
+        <section>
+            <h2>Juniors’ Homecoming Prep:</h2>
+            <p id="homecoming"></p>
+        </section>
+
+        <section>
+            <h2>KV Pride Club Meeting:</h2>
+            <p id="prideClub"></p>
+        </section>
+    </div>
+
+    <script>
+        function loadGoogleSheetData() {
+            // Use the Google Sheets CSV link provided earlier
+            const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2UdAAWIYJE-S6Hg_01uwpuk3gsxRIxq5xJw2nLdEk6Ydc2Mw9WKpJLHUSpOcrLgvHpts8Mf1UUFCu/pub?output=csv';
+
+            fetch(sheetUrl)
+                .then(response => response.text())
+                .then(data => {
+                    console.log("Raw CSV Data:", data); // Log the raw CSV data
+
+                    // Split the data by newlines to get rows
+                    const rows = data.split('\n');
+                    console.log("Split Rows:", rows); // Log the split rows
+
+                    // Split the second row for announcements
+                    const announcements = rows[1].split(',');
+                    console.log("Announcements:", announcements); // Log the announcements
+
+                    // Populate the HTML with Google Sheets data
+                    document.getElementById('broncStore').innerHTML = announcements[0] || 'No data';
+                    document.getElementById('powderpuff').innerHTML = announcements[1] || 'No data';
+                    document.getElementById('homecoming').innerHTML = announcements[2] || 'No data';
+                    document.getElementById('prideClub').innerHTML = announcements[3] || 'No data';
+                })
+                .catch(error => {
+                    console.error('Error loading Google Sheet:', error);
+                });
+        }
+
+        // Load the data when the page is ready
+        loadGoogleSheetData();
+    </script>
+</body>
+</html>
